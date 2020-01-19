@@ -1,12 +1,25 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { store } from "../store";
-import {ConnectedDashboard} from '../components/Dashboard'
+import { ConnectedDashboard } from "../components/Dashboard";
+import { Router, Route } from "react-router-dom";
+import { history } from "../store/history";
+import { ConnectedTaskList } from "./TaskList";
+import { ConnectedNavigation } from "./Navigation";
+import { ConnectedTaskDetail } from "./TaskDetail";
 
 export const Main = () => (
-  <Provider store={store}>
+  <Router history={history}>
+    <Provider store={store}>
       <div>
-    <ConnectedDashboard/>
-    </div>
-  </Provider>
+        <ConnectedNavigation />
+        <Route exact path="/dashboard" render={() => <ConnectedDashboard />} />
+        <Route
+          exact
+          path="/task/:id"
+          render={({ match }) => <ConnectedTaskDetail match={match} />}
+        />
+      </div>
+    </Provider>
+  </Router>
 );
